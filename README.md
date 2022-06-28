@@ -1,9 +1,11 @@
-# Fabric Example Mod
+# Seemless Item Frames - Mod for FabricMC
 
 ## Setup
 
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
+This mod is server-side so feel free to use it on "vanill-ish" servers. No need to install it on client.
+
+For more info check [wiki](https://github.com/JustS-js/seemlessFrames/wiki)
 
 ## License
 
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+This piece of software is under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
