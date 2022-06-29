@@ -1,5 +1,6 @@
 package net.just_s.sframes.mixin;
 
+import net.just_s.sframes.SFramesMod;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -22,7 +23,12 @@ public class ItemFrameMixin {
 			if (itemStack.getItem().getTranslationKey().equals("item.minecraft.shears") && !((ItemFrameEntity)(Object)this).isInvisible()) {
 				ItemFrameEntity frame = ((ItemFrameEntity)(Object)this);
 				if (!player.isCreative()) {
-					itemStack.damage(1, Random.create(), player.getServer().getPlayerManager().getPlayer(player.getUuid()));
+					if (itemStack.getDamage() < 237) {
+						itemStack.damage(1, Random.create(), player.getServer().getPlayerManager().getPlayer(player.getUuid()));
+					} else {
+						itemStack.decrement(1);
+					}
+
 				}
 				frame.getWorld().playSound(
 						null,
