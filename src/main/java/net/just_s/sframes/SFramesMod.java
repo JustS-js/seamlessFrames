@@ -9,6 +9,6 @@ public class SFramesMod implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		LOGGER.info("Seaeless Frames loaded successfully!");
+		LOGGER.info("Seamless Frames loaded successfully!");
 	}
 }

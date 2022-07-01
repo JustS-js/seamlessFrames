@@ -1,10 +1,10 @@
-# Seemless Item Frames - Mod for FabricMC
+# Seamless Item Frames - Mod for FabricMC
 
 ## Setup
 
 This mod is server-side so feel free to use it on "vanill-ish" servers. No need to install it on client.
 
-For more info check [wiki](https://github.com/JustS-js/seemlessFrames/wiki)
+For more info check [wiki](https://github.com/JustS-js/seamlessFrames/wiki)
 
 ## License
 

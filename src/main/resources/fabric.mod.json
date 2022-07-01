@@ -3,14 +3,14 @@
   "id": "sframes",
   "version": "${version}",
 
-  "name": "Seemless Frames",
+  "name": "Seamless Frames",
   "description": "Make your item frames invisible with shears!",
   "authors": [
     "Just_S"
   ],
   "contact": {
     "YouTube": "https://www.youtube.com/c/JustS_js",
-    "sources": "https://github.com/JustS-js/seemlessFrames"
+    "sources": "https://github.com/JustS-js/seamlessFrames"
   },
 
   "license": "CC0-1.0",
