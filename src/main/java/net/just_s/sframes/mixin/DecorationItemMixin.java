@@ -10,6 +10,7 @@ import net.minecraft.item.DecorationItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.scoreboard.Team;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -57,7 +58,13 @@ public class DecorationItemMixin {
                     frameEntity = new GlowItemFrameEntity(world, blockPos2, direction);
                 }
                 EntityType.loadFromEntityNbt(world, playerEntity, frameEntity, nbt);
-                frameEntity.setGlowing(true);
+
+                Team team = world.getScoreboard().getTeam("SeamlessFrames");
+                world.getScoreboard().addPlayerToTeam(frameEntity.getEntityName(), team);
+                world.getServer().getScoreboard().updateScoreboardTeam(team);
+
+                frameEntity.addScoreboardTag("invisibleframe");
+
                 if (frameEntity.canStayAttached()) {
                     if (!world.isClient) {
                         frameEntity.onPlace();
