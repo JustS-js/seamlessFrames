@@ -37,47 +37,50 @@ public class DecorationItemMixin {
 
     @Inject(at = @At("HEAD"), method = "useOnBlock", cancellable = true)
     private void inject(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir) {
-        BlockPos blockPos = context.getBlockPos();
-        Direction direction = context.getSide();
-        BlockPos blockPos2 = blockPos.offset(direction);
-        PlayerEntity playerEntity = context.getPlayer();
-        ItemStack itemStack = context.getStack();
+        try {
+            BlockPos blockPos = context.getBlockPos();
+            Direction direction = context.getSide();
+            BlockPos blockPos2 = blockPos.offset(direction);
+            PlayerEntity playerEntity = context.getPlayer();
+            ItemStack itemStack = context.getStack();
 
-        if (playerEntity != null && this.canPlaceOn(playerEntity, direction, itemStack, blockPos2)) {
-            if (this.entityType != EntityType.ITEM_FRAME && this.entityType != EntityType.GLOW_ITEM_FRAME) {
-                return;
-            }
-            if (!itemStack.hasNbt()) {return;}
-            NbtCompound nbt = itemStack.getNbt();
-            if (nbt.contains("invisibleframe")) {
-                World world = context.getWorld();
-                AbstractDecorationEntity frameEntity;
-                if (this.entityType == EntityType.ITEM_FRAME) {
-                    frameEntity = new ItemFrameEntity(world, blockPos2, direction);
-                } else {
-                    frameEntity = new GlowItemFrameEntity(world, blockPos2, direction);
+            if (playerEntity != null && this.canPlaceOn(playerEntity, direction, itemStack, blockPos2)) {
+                if (this.entityType != EntityType.ITEM_FRAME && this.entityType != EntityType.GLOW_ITEM_FRAME) {
+                    return;
                 }
-                EntityType.loadFromEntityNbt(world, playerEntity, frameEntity, nbt);
-
-                Team team = world.getScoreboard().getTeam("SeamlessFrames");
-                world.getScoreboard().addPlayerToTeam(frameEntity.getEntityName(), team);
-                world.getServer().getScoreboard().updateScoreboardTeam(team);
-
-                frameEntity.addScoreboardTag("invisibleframe");
-
-                if (frameEntity.canStayAttached()) {
-                    if (!world.isClient) {
-                        frameEntity.onPlace();
-                        world.emitGameEvent(playerEntity, GameEvent.ENTITY_PLACE, frameEntity.getPos());
-                        world.spawnEntity(frameEntity);
+                if (!itemStack.hasNbt()) {return;}
+                NbtCompound nbt = itemStack.getNbt();
+                if (nbt.contains("invisibleframe")) {
+                    World world = context.getWorld();
+                    AbstractDecorationEntity frameEntity;
+                    if (this.entityType == EntityType.ITEM_FRAME) {
+                        frameEntity = new ItemFrameEntity(world, blockPos2, direction);
+                    } else {
+                        frameEntity = new GlowItemFrameEntity(world, blockPos2, direction);
                     }
+                    EntityType.loadFromEntityNbt(world, playerEntity, frameEntity, nbt);
 
-                    itemStack.decrement(1);
-                    cir.setReturnValue(ActionResult.success(world.isClient));
-                } else {
-                    cir.setReturnValue(ActionResult.CONSUME);
+                    Team team = world.getScoreboard().getTeam("SeamlessFrames");
+                    world.getScoreboard().addPlayerToTeam(frameEntity.getEntityName(), team);
+
+                    frameEntity.addScoreboardTag("invisibleframe");
+
+                    if (frameEntity.canStayAttached()) {
+                        if (!world.isClient) {
+                            frameEntity.onPlace();
+                            world.emitGameEvent(playerEntity, GameEvent.ENTITY_PLACE, frameEntity.getPos());
+                            world.spawnEntity(frameEntity);
+                        }
+
+                        itemStack.decrement(1);
+                        cir.setReturnValue(ActionResult.success(world.isClient));
+                    } else {
+                        cir.setReturnValue(ActionResult.CONSUME);
+                    }
                 }
             }
+        } catch (Exception e) {
+            SFramesMod.LOGGER.error("SFrames error on DecorationItemMixin: " + e);
         }
     }
 }

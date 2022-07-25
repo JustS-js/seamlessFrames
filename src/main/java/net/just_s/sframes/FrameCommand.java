@@ -50,7 +50,7 @@ public class FrameCommand {
 
     private static int executeColor(ServerCommandSource commandSource, Formatting color) {
         ServerPlayerEntity player = commandSource.getPlayer();
-        SFramesMod.CONFIG.playerColor.put(player.getUuidAsString(), color.asString());
+        SFramesMod.CONFIG.playerColor.put(player.getEntityName(), color.asString());
         SFramesMod.CONFIG.dumpJson();
         return 1;
     }

@@ -4,7 +4,6 @@
   "package": "net.just_s.sframes.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "DecorationItemEntityMixin",
     "DecorationItemMixin",
     "GlowingItemFrameMixin",
     "ItemFrameEntityMixin",

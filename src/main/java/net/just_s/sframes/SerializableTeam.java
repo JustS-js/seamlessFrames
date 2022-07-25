@@ -1,16 +1,9 @@
 package net.just_s.sframes;
 
-import com.google.common.collect.ImmutableList;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.s2c.play.TeamS2CPacket;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Collection;
-import java.util.Optional;
 
 public class SerializableTeam {
     private final Text displayName;

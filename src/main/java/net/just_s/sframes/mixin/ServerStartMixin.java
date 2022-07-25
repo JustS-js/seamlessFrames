@@ -5,7 +5,6 @@ import net.minecraft.scoreboard.Team;
 import net.minecraft.server.dedicated.MinecraftDedicatedServer;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -29,7 +28,7 @@ public class ServerStartMixin {
         }
     }
 
-    private void teamSettings(@NotNull Team team) {
+    private void teamSettings(Team team) {
         team.setColor(Formatting.byName(SFramesMod.CONFIG.outlineColor));
     }
 }
