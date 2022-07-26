@@ -90,6 +90,8 @@ public class ItemFrameMixin {
 
 					frame.setInvisible(false);
 
+					frame.setGlowing(false);
+
 					frame.removeScoreboardTag("invisibleframe");
 
 					SFramesMod.sendPackets((ServerPlayerEntity) player, new ParticleS2CPacket(
@@ -166,6 +168,7 @@ public class ItemFrameMixin {
 			if (frame.getScoreboardTags().contains("invisibleframe")) {
 				frame.setInvisible(!frame.getHeldItemStack().isEmpty());
 			}
+			if (!SFramesMod.shouldGlow(frame) && frame.isGlowing()) frame.setGlowing(false);
 		} catch (Exception e) {
 			SFramesMod.LOGGER.error("SFrames error on ItemFrameMixin.updateState(): " + e);
 		}

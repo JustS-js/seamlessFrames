@@ -25,6 +25,9 @@ public class Config {
     // Radius of area where item frames are glowing ("-1" to glow always)
     public int radiusOfGlowing = -1;
 
+    // If true, frames will glow for individual players based on radius
+    public boolean clientSideGlowing = false;
+
     // Do shear get damaged and break
     public boolean doShearsBreak = true;
 
@@ -50,6 +53,7 @@ public class Config {
                         switch (key) {
                             case "outlineColor" -> outlineColor = value;
                             case "radiusOfGlowing" -> radiusOfGlowing = Integer.parseInt(value);
+                            case "clientSideGlowing" -> clientSideGlowing = Boolean.parseBoolean(value);
                             case "doShearsBreak" -> doShearsBreak = Boolean.parseBoolean(value);
                             case "fixWithLeather" -> fixWithLeather = Boolean.parseBoolean(value);
                         }
@@ -85,6 +89,9 @@ public class Config {
 
             writer.write("# Radius from player where item frames are glowing (\"-1\" to disable)\n");
             writer.write("radiusOfGlowing=" + radiusOfGlowing + "\n\n");
+
+            writer.write("# If true, frames will glow for individual players based on radius\n");
+            writer.write("clientSideGlowing=" + clientSideGlowing + "\n\n");
 
             writer.write("# Do shears get damaged and break\n");
             writer.write("doShearsBreak=" + doShearsBreak + "\n\n");

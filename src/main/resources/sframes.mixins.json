@@ -8,8 +8,9 @@
     "GlowingItemFrameMixin",
     "ItemFrameEntityMixin",
     "ItemFrameMixin",
-    "ServerStartMixin",
-    "ServerPlayerTickMixin"
+    "ClientSideGlowingMixin",
+    "ServerSideGlowingMixin",
+    "ServerStartMixin"
   ],
   "client": [
   ],
