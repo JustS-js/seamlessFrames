@@ -15,12 +15,18 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
+import java.util.Objects;
+
 public class FrameCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess commandRegistryAccess, CommandManager.RegistrationEnvironment registrationEnvironment) {
         dispatcher.register(
                 CommandManager.literal("sframes").
                         then(
-                                CommandManager.literal("color").then(
+                                CommandManager.literal("color").
+                                        executes(
+                                                (context) -> executeShow(context.getSource(), "color", null)
+                                        ).
+                                        then(
                                         CommandManager.argument("value", ColorArgumentType.color()).executes(
                                                 (context) -> executeColor(context.getSource(), ColorArgumentType.getColor(context, "value")))
                                 )
@@ -80,7 +86,21 @@ public class FrameCommand {
     }
 
     private static int executeShow(ServerCommandSource commandSource, String name, Object value) {
-        commandSource.getPlayer().sendMessage(Text.of("value of " + name + ": " + value));
+        String strValue = null;
+        if (value instanceof Boolean) {
+            strValue = (boolean) value ? "§6" + value : "§c" + value;
+        }
+        if (value instanceof Integer) {
+            strValue = "§6" + value;
+        }
+        if (Objects.equals(name, "color")) {
+            String colorName = SFramesMod.CONFIG.playerColor.get(commandSource.getPlayer().getEntityName());
+            strValue = colorName != null ? Formatting.byName(colorName).toString() + colorName : "§fno custom color";
+        }
+        if (Objects.equals(name, "baseColor")) {
+            strValue = Formatting.byName((String) value).toString() + value;
+        }
+        commandSource.getPlayer().sendMessage(Text.of("§6[§aSFrames§6] §2value of §b" + name + "§2 > " + strValue));
         return 1;
     }
 

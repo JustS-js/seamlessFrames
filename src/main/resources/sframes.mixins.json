@@ -4,12 +4,12 @@
   "package": "net.just_s.sframes.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "CustomColorMixin",
     "DecorationItemMixin",
     "GlowingItemFrameMixin",
+    "GlowingTickMixin",
     "ItemFrameEntityMixin",
     "ItemFrameMixin",
-    "ClientSideGlowingMixin",
-    "ServerSideGlowingMixin",
     "ServerStartMixin"
   ],
   "client": [

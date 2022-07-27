@@ -25,8 +25,8 @@ public class Config {
     // Radius of area where item frames are glowing ("-1" to glow always)
     public int radiusOfGlowing = -1;
 
-    // If true, frames will glow for individual players based on radius
-    public boolean clientSideGlowing = false;
+    // If true, frames will glow only for players in radius
+    public boolean clientSideGlowing = true;
 
     // Do shear get damaged and break
     public boolean doShearsBreak = true;

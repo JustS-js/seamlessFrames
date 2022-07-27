@@ -24,6 +24,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.List;
+
+import static net.just_s.sframes.SFramesMod.generateGlowPacket;
+
+
 @Mixin(ItemFrameEntity.class)
 public class ItemFrameMixin {
 	@Inject(at = @At("HEAD"), method = "damage", cancellable = true)
@@ -89,8 +94,8 @@ public class ItemFrameMixin {
 					);
 
 					frame.setInvisible(false);
-
 					frame.setGlowing(false);
+					SFramesMod.sendPackets((List<ServerPlayerEntity>) player.getWorld().getPlayers(), generateGlowPacket(frame, false));
 
 					frame.removeScoreboardTag("invisibleframe");
 
