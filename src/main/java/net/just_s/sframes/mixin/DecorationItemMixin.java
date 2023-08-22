@@ -63,7 +63,7 @@ public class DecorationItemMixin {
                     Team team = world.getScoreboard().getTeam("SeamlessFrames");
                     world.getScoreboard().addPlayerToTeam(frameEntity.getEntityName(), team);
 
-                    frameEntity.addScoreboardTag("invisibleframe");
+                    frameEntity.addCommandTag("invisibleframe");
 
                     if (frameEntity.canStayAttached()) {
                         if (!world.isClient) {

@@ -4,11 +4,11 @@
   "package": "net.just_s.sframes.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "AccessDataTrackerEntries",
     "CustomColorMixin",
     "DecorationItemMixin",
     "GlowingItemFrameMixin",
     "GlowingTickMixin",
-    "ItemFrameEntityMixin",
     "ItemFrameMixin",
     "ServerStartMixin"
   ],

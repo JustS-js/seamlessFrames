@@ -6,7 +6,11 @@ import net.just_s.sframes.SerializableTeam;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.decoration.AbstractDecorationEntity;
 import net.minecraft.entity.decoration.ItemFrameEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.packet.s2c.play.EntityStatusEffectS2CPacket;
+import net.minecraft.network.packet.s2c.play.RemoveEntityStatusEffectS2CPacket;
 import net.minecraft.network.packet.s2c.play.TeamS2CPacket;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -73,6 +77,9 @@ public abstract class GlowingTickMixin {
             if (frame.isGlowing() && noPlayerNearby && !SFramesMod.CONFIG.clientSideGlowing) frame.setGlowing(false);
             if (SFramesMod.CONFIG.clientSideGlowing && tick % 10 == 0)
                 SFramesMod.sendPackets(playerOutOfBound, generateGlowPacket((ItemFrameEntity) frame, false));
+//                SFramesMod.sendPackets(playerOutOfBound, new RemoveEntityStatusEffectS2CPacket(
+//                        frame.getId(), StatusEffects.GLOWING
+//                ));
             tick = tick % 10;
 
         } catch (Exception e) {
@@ -86,5 +93,8 @@ public abstract class GlowingTickMixin {
 
     private void clientSideTickGlow(ServerPlayerEntity player, ItemFrameEntity frame) {
         SFramesMod.sendPackets(player, generateGlowPacket(frame, true));
+//        SFramesMod.sendPackets(player, new EntityStatusEffectS2CPacket(
+//                frame.getId(), new StatusEffectInstance(StatusEffects.GLOWING)
+//        ));
     }
 }

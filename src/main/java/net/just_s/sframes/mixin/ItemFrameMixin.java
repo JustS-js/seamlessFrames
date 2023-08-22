@@ -5,10 +5,12 @@ import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.decoration.ItemFrameEntity;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.ParticleS2CPacket;
+import net.minecraft.network.packet.s2c.play.RemoveEntityStatusEffectS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -73,7 +75,7 @@ public class ItemFrameMixin {
 					Team team = frame.getWorld().getScoreboard().getTeam("SeamlessFrames");
 					frame.getWorld().getScoreboard().addPlayerToTeam(frame.getEntityName(), team);
 
-					frame.addScoreboardTag("invisibleframe");
+					frame.addCommandTag("invisibleframe");
 
 					if (!frame.getHeldItemStack().isEmpty()) {
 						frame.setInvisible(true);
@@ -96,6 +98,9 @@ public class ItemFrameMixin {
 					frame.setInvisible(false);
 					frame.setGlowing(false);
 					SFramesMod.sendPackets((List<ServerPlayerEntity>) player.getWorld().getPlayers(), generateGlowPacket(frame, false));
+//					SFramesMod.sendPackets((List<ServerPlayerEntity>) player.getWorld().getPlayers(), new RemoveEntityStatusEffectS2CPacket(
+//							frame.getId(), StatusEffects.GLOWING
+//					));
 
 					frame.removeScoreboardTag("invisibleframe");
 
@@ -151,7 +156,7 @@ public class ItemFrameMixin {
 		try {
 			if (!SFramesMod.CONFIG.fixWithLeather) return;
 			ItemFrameEntity frame = ((ItemFrameEntity)(Object)this);
-			if (frame.getScoreboardTags().contains("invisibleframe")) {
+			if (frame.getCommandTags().contains("invisibleframe")) {
 				ItemStack item = cir.getReturnValue();
 				item.setCustomName(Text.of("Невидимая рамка"));
 				item.addEnchantment(Enchantments.UNBREAKING, 1);
@@ -170,7 +175,7 @@ public class ItemFrameMixin {
 	private void updateState() {
 		try {
 			ItemFrameEntity frame = ((ItemFrameEntity)(Object)this);
-			if (frame.getScoreboardTags().contains("invisibleframe")) {
+			if (frame.getCommandTags().contains("invisibleframe")) {
 				frame.setInvisible(!frame.getHeldItemStack().isEmpty());
 			}
 			if (!SFramesMod.shouldGlow(frame) && frame.isGlowing()) frame.setGlowing(false);

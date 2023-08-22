@@ -19,7 +19,7 @@ public class GlowingItemFrameMixin {
         try {
             if (!SFramesMod.CONFIG.fixWithLeather) return;
             ItemFrameEntity frame = ((ItemFrameEntity)(Object)this);
-            if (frame.getScoreboardTags().contains("invisibleframe")) {
+            if (frame.getCommandTags().contains("invisibleframe")) {
                 ItemStack item = cir.getReturnValue();
                 item.setCustomName(Text.of("Невидимая светящаяся рамка"));
                 item.addEnchantment(Enchantments.UNBREAKING, 1);
