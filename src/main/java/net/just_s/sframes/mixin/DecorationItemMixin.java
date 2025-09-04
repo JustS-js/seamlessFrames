@@ -40,7 +40,7 @@ public class DecorationItemMixin {
 
     @Redirect(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"), method = "useOnBlock")
     private boolean sframes$addFrameToTeamOnSpawn(World world, Entity abstractDecorationEntity) {
-        if (abstractDecorationEntity instanceof ItemFrameEntity && customData.getBoolean("invisibleframe")) {
+        if (abstractDecorationEntity instanceof ItemFrameEntity && customData.getBoolean("invisibleframe").orElse(false)) {
             SFramesMod.addFrameToTeam((ItemFrameEntity) abstractDecorationEntity);
         }
 

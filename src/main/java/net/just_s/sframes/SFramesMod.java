@@ -105,7 +105,7 @@ public class SFramesMod implements ModInitializer {
 	}
 
 	public static List<ServerPlayerEntity> getPlayersNearby(ItemFrameEntity itemFrame) {
-		return (List<ServerPlayerEntity>)(Object)itemFrame.getEntityWorld().getOtherEntities(
+		return (List<ServerPlayerEntity>)(Object)itemFrame.getWorld().getOtherEntities(
 				null,
 				new Box(
 						itemFrame.getPos().add(

@@ -15,6 +15,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.ParticleS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -31,12 +32,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ItemFrameEntity.class)
 public class ItemFrameMixin {
 	@Inject(at = @At("HEAD"), method = "damage", cancellable = true)
-	private void sframes$onItemFrameDamageWithTool(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+	private void sframes$onItemFrameDamageWithTool(ServerWorld world, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
 		Entity attacker = source.getAttacker();
 		if (attacker == null || !attacker.isPlayer() || attacker.getWorld().isClient()) return;
 
 		ServerPlayerEntity player = (ServerPlayerEntity) attacker;
-		ItemStack itemStackInHand = player.getInventory().getStack(player.getInventory().selectedSlot);
+		ItemStack itemStackInHand = player.getInventory().getStack(player.getInventory().getSelectedSlot());
 
 		if (itemStackInHand.isOf(Items.SHEARS) && this.applyShears(itemStackInHand, player)) {
 			cir.setReturnValue(true);
@@ -51,7 +52,7 @@ public class ItemFrameMixin {
 	}
 
 	@Inject(at = @At("RETURN"), method = "dropHeldStack")
-	private void sframes$onDroppingHoldingItem(Entity entity, boolean alwaysDrop, CallbackInfo ci) {
+	private void sframes$onDroppingHoldingItem(ServerWorld world, Entity entity, boolean dropSelf, CallbackInfo ci) {
 		updateState();
 	}
 
@@ -108,6 +109,7 @@ public class ItemFrameMixin {
 		SFramesMod.sendPacket(player, new ParticleS2CPacket(
 				ParticleTypes.CLOUD,
 				false,
+				true,
 				itemFrame.getX(),
 				itemFrame.getY(),
 				itemFrame.getZ(),
