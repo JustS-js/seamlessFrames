@@ -53,7 +53,7 @@ public abstract class GlowingTickMixin implements ItemFrameScheduledPacketAccess
     @Inject(at = @At("TAIL"), method = "tick")
     private void sframes$glowingTick(CallbackInfo ci) {
         BlockAttachedEntity frame = (BlockAttachedEntity) (Object) this;
-        if (frame.getWorld().isClient) return;
+        if (frame.getEntityWorld().isClient()) return;
         if (!(frame instanceof ItemFrameEntity && SFramesMod.shouldGlow((ItemFrameEntity) frame))) return;
 
         this.tickScheduled();

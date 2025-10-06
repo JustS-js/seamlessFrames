@@ -15,7 +15,9 @@ import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.EntityTrackerUpdateS2CPacket;
 import net.minecraft.network.packet.s2c.play.TeamS2CPacket;
+import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.scoreboard.Team;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
@@ -77,12 +79,20 @@ public class SFramesMod implements ModInitializer {
 	}
 
 	public static void addFrameToTeam(ItemFrameEntity itemFrame) {
-		itemFrame.getServer().getScoreboard().addScoreHolderToTeam(itemFrame.getNameForScoreboard(), getTeam());
+		MinecraftServer server = itemFrame.getEntityWorld().getServer();
+		if (server == null) {
+			return;
+		}
+		server.getScoreboard().addScoreHolderToTeam(itemFrame.getNameForScoreboard(), getTeam());
 		itemFrame.addCommandTag(TEAM_NAME);
 	}
 
 	public static void removeFrameFromTeam(ItemFrameEntity itemFrame) {
-		itemFrame.getServer().getScoreboard().removeScoreHolderFromTeam(itemFrame.getNameForScoreboard(), getTeam());
+		MinecraftServer server = itemFrame.getEntityWorld().getServer();
+		if (server == null) {
+			return;
+		}
+		server.getScoreboard().removeScoreHolderFromTeam(itemFrame.getNameForScoreboard(), getTeam());
 		itemFrame.removeCommandTag(TEAM_NAME);
 	}
 
@@ -105,15 +115,15 @@ public class SFramesMod implements ModInitializer {
 	}
 
 	public static List<ServerPlayerEntity> getPlayersNearby(ItemFrameEntity itemFrame) {
-		return (List<ServerPlayerEntity>)(Object)itemFrame.getWorld().getOtherEntities(
+		return (List<ServerPlayerEntity>)(Object)itemFrame.getEntityWorld().getOtherEntities(
 				null,
 				new Box(
-						itemFrame.getPos().add(
+						itemFrame.getEntityPos().add(
 								SFramesMod.CONFIG.getData().radiusOfGlowing() + 1,
 								SFramesMod.CONFIG.getData().radiusOfGlowing() + 1,
 								SFramesMod.CONFIG.getData().radiusOfGlowing() + 1
 						),
-						itemFrame.getPos().add(
+						itemFrame.getEntityPos().add(
 								-1 * SFramesMod.CONFIG.getData().radiusOfGlowing(),
 								-1 * SFramesMod.CONFIG.getData().radiusOfGlowing(),
 								-1 * SFramesMod.CONFIG.getData().radiusOfGlowing()
